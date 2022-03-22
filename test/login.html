@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CART</title>
+    <link rel="stylesheet" type="text/css" href="style1.css">
+    <title>CART</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<div class="container" id="container">
+<div class="form-container sign-up-container">
+<!-- <form  action="register.php" method="POST">  -->
+    
+    <div class="form-cls">
+    <h1>Create Account</h1>
+    <div class="social-container">
+        <a href="#" class="social"><i class="fa fa-facebook"></i></a>
+        <a href="#" class="social"><i class="fa fa-google"></i></a>
+
+        <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
+    </div>
+    <span>or use your email for registration</span>
+    <form action="">
+     <input type="text" id="uname" name="uname" placeholder="Name" required>
+     <input type="email" id="email" name="email" placeholder="Email" required>
+     <input type="password" id="pass1" name="pass1" placeholder="Password" required>
+     <input type="password" id="pass2" name="pass2" placeholder="Confirm Password" required>
+     <button class="signup-btn">SignUp</buttone>
+    </form>
+    </div>
+   
+<!-- </form> -->
+
+
+</div> 
+<div class="form-container sign-in-container">
+    <div class="form-cls">
+        <h1>CART</h1>
+        <div class="social-container">
+        <a href="#" class="social"><i class="fa fa-facebook"></i></a>
+        <a href="#" class="social"><i class="fa fa-google"></i></a>
+        <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
+    </div>
+    <span>or use your account</span>
+    <input type="email" id="email-sigin" name="email" placeholder="Email" required>
+    <span class="error_email" ></span>
+    <input type="password" id="pass-sigin" name="password" placeholder="Password" required>
+    <span class="error_pass" ></span>
+    <a href="#">Forgot Your Password ?</a>
+
+    <button class="signin-btn">Sign In</button>
+</div>
+</div>
+<div class="overlay-container">
+    <div class="overlay">
+        <div class="overlay-panel overlay-left">
+            <h1>Welcome Back!</h1>
+            <p>Create an account to keep connected with us.</p>
+            <button class="ghost" id="signIn">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+            <h1>Hello, Friend!</h1>
+            <p>Enter your details and start your journey with us!</p>
+            <button class="ghost" id="signUp">Sign Up</button>
+        </div>
+    </div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script   type="text/javascript">
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+    $(".signup-btn").click(function(){
+        var uname = $('#uname').val();
+        var email = $('#email').val();
+        var pass1 = $('#pass1').val();
+        var pass2 = $('#pass2').val();
+        if(pass1==pass2){
+            $.ajax({
+                url:'register.php',
+                type:'POST',
+                data:{
+                    uname:uname,
+                    email:email,
+                    pass:pass1
+                },
+                success:function(){
+                    console.log("ok");
+                    
+                }
+            })
+        }
+        else{
+            alert('Give the Same passwords');
+        }
+    })
+    $(".signin-btn").click(function(){
+     var email=$('#email-sigin').val();
+     var pass =$('#pass-sigin').val();
+     $.ajax({
+         url:'sigin.php',
+         type:'POST',
+         data:{
+             email:email,
+             pass:pass
+         },
+         success:function(data){
+            data = JSON.parse(data);
+            if(data.success){
+                location.href = "http://localhost/test/index.php";
+            }
+            else if(data.error)
+            {
+                 if(data.error_email_sigin !=""){
+                     $(".error_email")
+                    {
+                     alert("Enter Correct EMAIL and PASSWORD");
+                    }
+                }
+                if(data.error_pass_sigin !=""){
+                     $(".error_pass")
+                    {
+                      alert("Sign up if you are a new user");
+                    }
+                }
+             }
+        }
+     });
+    
+    });
+    
+</script>
+
+</body>
+</html>
